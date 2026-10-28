@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ECON 200 Exam 2 study</title>
+<style>
+  :root {
+    --bg: #f4f1ea;
+    --ink: #1a1a1a;
+    --muted: #5c574e;
+    --card: #fffdf8;
+    --line: #d9d2c5;
+    --accent: #1f4d3a;
+    --accent-soft: #e5f0ea;
+    --bad: #8a2e24;
+    --bad-soft: #f8e8e6;
+    --good: #1f4d3a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Avenir Next", "Segoe UI", Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.4;
+  }
+  header {
+    padding: 22px 22px 8px;
+    max-width: 880px;
+    margin: 0 auto;
+  }
+  h1 { font-size: 28px; margin: 0 0 4px; letter-spacing: -0.02em; }
+  .lede { margin: 0; color: var(--muted); font-size: 15px; }
+  nav {
+    display: flex;
+    gap: 8px;
+    padding: 14px 22px 0;
+    max-width: 880px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+  }
+  nav button, .pills button, .actions button, .choice, .flip-hint {
+    font: inherit;
+    cursor: pointer;
+  }
+  nav button {
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--ink);
+    border-radius: 999px;
+    padding: 8px 14px;
+  }
+  nav button.on { background: var(--ink); color: #fff; border-color: var(--ink); }
+  main { max-width: 880px; margin: 0 auto; padding: 16px 22px 64px; }
+  .view { display: none; }
+  .view.on { display: block; }
+  .pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .pills button {
+    border: 1px solid var(--line);
+    background: var(--card);
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-size: 14px;
+  }
+  .pills button.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .meta { color: var(--muted); font-size: 14px; margin: 0 0 10px; }
+  .scene { perspective: 1200px; }
+  .card {
+    position: relative;
+    min-height: 280px;
+    transform-style: preserve-3d;
+    transition: transform 0.35s ease;
+    cursor: pointer;
+  }
+  .card.flipped { transform: rotateY(180deg); }
+  .face {
+    position: absolute;
+    inset: 0;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 28px 26px;
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .face.back { transform: rotateY(180deg); background: #f7fbf8; }
+  .tag { font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+  .face p { font-size: 22px; margin: 0; line-height: 1.35; }
+  .face.back p { font-size: 18px; }
+  .hint { margin-top: 16px; color: var(--muted); font-size: 13px; }
+  .actions { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+  .actions button {
+    border: 1px solid var(--line);
+    background: var(--card);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 15px;
+  }
+  .actions button.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .rule {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+  }
+  .rule h2 { font-size: 16px; margin: 0 0 4px; }
+  .rule p { margin: 0; font-size: 15px; }
+  .qcard {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 22px;
+  }
+  .qcard h2 { font-size: 20px; margin: 0 0 14px; line-height: 1.35; }
+  .choice {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 8px;
+    font-size: 16px;
+  }
+  .choice.right { background: var(--accent-soft); border-color: var(--accent); }
+  .choice.wrong { background: var(--bad-soft); border-color: var(--bad); }
+  .why { margin: 8px 0 0; font-size: 15px; }
+  .score { font-size: 15px; color: var(--muted); margin-bottom: 10px; }
+  kbd {
+    font-family: inherit;
+    border: 1px solid var(--line);
+    border-bottom-width: 2px;
+    border-radius: 4px;
+    padding: 0 5px;
+    font-size: 12px;
+    background: #fff;
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Exam 2 study</h1>
+  <p class="lede">Thursday, Oct 29, 3:30–4:45pm, ENR2 N120. Chapters 10, 12, 14, and 15. Forty multiple choice. One notes page, both sides.</p>
+</header>
+<nav>
+  <button id="tab-rules" class="on" type="button">Rules of thumb</button>
+  <button id="tab-cards" type="button">Flashcards</button>
+  <button id="tab-quiz" type="button">Prep questions</button>
+</nav>
+<main>
+  <section id="rules" class="view on"></section>
+  <section id="cards" class="view">
+    <div class="pills" id="card-pills"></div>
+    <p class="meta" id="card-meta"></p>
+    <div class="scene">
+      <div class="card" id="card" tabindex="0" role="button" aria-label="Flashcard. Click to flip.">
+        <div class="face front"><div class="tag" id="card-tag"></div><p id="card-front"></p><div class="hint">Click the card to flip. <kbd>Space</kbd> flips. <kbd>←</kbd> <kbd>→</kbd> move.</div></div>
+        <div class="face back"><div class="tag">Answer</div><p id="card-back"></p></div>
+      </div>
+    </div>
+    <div class="actions">
+      <button type="button" id="prev">Previous</button>
+      <button type="button" id="again">Again</button>
+      <button type="button" id="got" class="primary">Got it</button>
+      <button type="button" id="next">Next</button>
+    </div>
+  </section>
+  <section id="quiz" class="view">
+    <div class="pills" id="quiz-pills"></div>
+    <p class="score" id="quiz-score"></p>
+    <div class="qcard" id="qcard"></div>
+    <div class="actions">
+      <button type="button" id="quiz-prev">Previous</button>
+      <button type="button" id="quiz-next" class="primary">Next</button>
+    </div>
+  </section>
+</main>
+<script>
+const rules = [
+  ["1. Add the bystander", "Marginal social cost = marginal private cost + marginal external cost. Example: $11 + $2.50 = $13.50. The best quantity is where marginal social benefit equals marginal social cost. Do more when benefit is higher. Do less when cost is higher."],
+  ["2. Negative externality", "A cost dumped on others. The MSC curve sits above supply. The market quantity is too big. The ideal tax equals the external damage at the best quantity. A tax that is too small, like $10 when damage is $30, still leaves too much of the harmful activity. Read social cost off the MSC curve, not ordinary supply."],
+  ["3. Positive externality", "A benefit others get free. The MSB curve sits above demand. The market quantity is too small. The efficient point is supply meeting MSB. The fix is a subsidy."],
+  ["4. Name the good in one second", "Rival means your use leaves less for someone else. Excludable means people can be kept out. Rival + excludable = private (sandwich, propane). Rival + not excludable = common resource (open-ocean fish). Not rival + excludable = club (paid streaming, a locked archive). Neither = public (defense, a free broadcast). A free rider gets the benefit and does not pay. Password sharing is free riding."],
+  ["5. Permits", "Fewer pollution permits makes permits scarcer. The permit price rises and total allowed pollution falls. The efficient amount of pollution is where the benefit of allowing one more unit equals the marginal social damage."],
+  ["6. Name the wage gap", "Worse job, higher pay: compensating differential (nights, noise, danger, bad location, travel). Education, training, experience, skills: human capital. Pay above what other jobs offer so people try harder and stay: efficiency wage. A profit bonus or company stock: incentive pay. Same job, same hours, same skills, paid less only because of gender: discrimination."],
+  ["7. A license is removed", "Labor supply shifts right. The wage falls. Employment rises. Adding a license does the opposite."],
+  ["8. Name the market", "Many sellers, identical product: perfect competition, no one sets the price. Many sellers, different products: monopolistic competition. A few sellers who must react to each other: oligopoly. One seller: monopoly. A natural monopoly means one firm can serve the whole market at a lower average cost than several firms. More differentiation, or fewer sellers, means more market power."],
+  ["9. Monopoly price, two steps", "Find the quantity where marginal revenue equals marginal cost. Then go straight up to the demand curve and read the price. Marginal revenue sits below demand because MR = output effect minus price effect. The output effect is the money from the extra unit. The price effect is the money lost because earlier units now sell for less. Average revenue equals price."],
+  ["10. Already at MR = MC", "Producing less moves away from the profit-maximizing quantity. Selling less does move you up the demand curve, so buyers pay a higher price. That is a different question from 'does profit rise?'"],
+  ["11. Collusion needs an agreement", "Rivals agree to raise price, cut output, or split the market. Honest labels are not collusion. Every firm raising price because the same input got more expensive is not, by itself, an agreement. A patent can reward invention and still block rivals. It does not force a rival to price at marginal cost."],
+  ["12. Which profit?", "Accounting profit = revenue minus cash costs only. Economic profit also subtracts the salary the owner gave up and the interest their savings could have earned. $54,000 + 5% of $80,000 = $58,000 of implicit cost. Revenue $74,000 minus cash $44,000 = $30,000 accounting profit. Minus $35,000 implicit = −$5,000 economic profit. Short-run profit when you are given price, average cost, and quantity: (P − AC) × Q. ($9 − $7) × 240 = $480."],
+  ["13. Free entry, long run", "The long run is however long entry and exit take, not a fixed number of years. Positive economic profit pulls firms in. Losses push firms out. With free entry, economic profit goes to zero and the firm's demand curve just touches average total cost."],
+  ["14. What keeps profit from being competed away", "A cheaper process rivals cannot copy, or a supplier discount only the incumbent gets. A cancellation fee or long contract (customer lock-in). A product that gets more valuable as more people join (network effect). A law that caps the number of licenses. An advantage everyone can copy does not protect long-run profit."]
+];
+
+const cards = [
+  ["10", "What is an externality?", "A side effect of production or consumption that hits people who are not part of the deal."],
+  ["10", "Negative externality: what happens to quantity?", "An external cost is dumped on bystanders. The market produces too much. MSC sits above the supply curve."],
+  ["10", "Positive externality: what happens to quantity?", "Bystanders get a free benefit. The market produces too little. MSB sits above the demand curve."],
+  ["10", "Write the social-cost formula and the $11 example.", "MSC = MPC + MEC. If private cost is $11 and external damage is $2.50, MSC is $13.50."],
+  ["10", "Where is the socially best quantity?", "Where marginal social benefit equals marginal social cost. Do more if MSB > MSC. Do less if MSB < MSC."],
+  ["10", "How big should a corrective tax be?", "Equal to the marginal external cost at the socially best quantity. A smaller tax leaves too much of the harmful activity."],
+  ["10", "A $10 tax is charged and marginal damage is $30. What is left?", "Too much pollution. The tax did not fully make firms face the external cost."],
+  ["10", "On a graph, social cost at a given quantity is the height of which curve?", "The MSC curve. Not the ordinary supply curve."],
+  ["10", "Rival vs excludable.", "Rival: one person's use leaves less for others. Excludable: people can be kept out."],
+  ["10", "Propane refill, paid streaming, open-ocean fish, a free broadcast.", "Private good. Club good. Common resource. Public good."],
+  ["10", "What is a free rider, and what is one fix?", "Someone who gets the benefit without paying. Password sharing is the example. Making access more excludable reduces it."],
+  ["10", "The number of pollution permits falls. Price and emissions?", "Permit price rises. Allowed pollution falls."],
+  ["12", "What is human capital?", "Education, training, experience, and skills. More of it raises productivity and can raise the wage."],
+  ["12", "What is a compensating differential?", "Extra pay that offsets a worse job: nights, danger, noise, a bad location, or lots of travel. A nicer job can pay less."],
+  ["12", "What is an efficiency wage?", "Pay above what the worker could earn elsewhere, used to raise effort, morale, retention, or productivity. It can still be profitable."],
+  ["12", "What counts as incentive pay?", "Pay tied to results. A profit bonus, company stock for a manager, or piece rate. A benefit that does not depend on effort does not."],
+  ["12", "When is a wage gap discrimination on this exam?", "Unequal pay for otherwise comparable workers because of group membership. Same job, hours, and skills, paid less only because of gender."],
+  ["12", "A certification rule is removed. Labor market?", "Labor supply shifts right. Equilibrium wage falls. Employment rises."],
+  ["12", "Night shift pays more than the same day job. Name it.", "Compensating differential. Not discrimination, and not an efficiency wage."],
+  ["14", "Four market structures in one line each.", "Perfect competition: many identical sellers, no price power. Monopolistic competition: many differentiated sellers. Oligopoly: a few interdependent sellers. Monopoly: one seller."],
+  ["14", "What is a natural monopoly?", "One firm can serve the whole market at a lower average cost than several smaller firms."],
+  ["14", "What is market power, and what raises it?", "The ability to influence price. More product differentiation, or fewer sellers, raises it."],
+  ["14", "Why is marginal revenue below price?", "To sell one more unit the firm cuts the price. MR = output effect minus price effect. The output effect is revenue from the extra unit. The price effect is revenue lost on the earlier units."],
+  ["14", "Two steps to the profit-maximizing price.", "Quantity where MR = MC. Then the price on the demand curve at that quantity. Average revenue equals price."],
+  ["14", "MC is $30. MR is $70, $50, $30, then $10. What quantity and, if 3 units sell at $50, what price?", "Sell the third unit because MR = MC = $30. Do not sell the fourth, where MR is $10. Charge $50."],
+  ["14", "The firm is already at MR = MC. Will producing less raise profit?", "No. That moves away from the profit-maximizing quantity. Producing less does raise the price buyers will pay, which is a separate fact."],
+  ["14", "What is collusion, and what is not?", "An agreement to raise prices, cut output, or divide the market. Truthful labels are not collusion. Matching price hikes after the same cost increase are not, by themselves, an agreement."],
+  ["14", "Competition versus monopoly on the same cost curve.", "Competition produces until price equals marginal cost, a larger quantity. At the monopoly quantity, buyers still value another unit more than it costs to make."],
+  ["14", "What does a patent do, and what does it not do?", "It can reward innovation and block rivals during the patent. It does not force a rival to price at marginal cost."],
+  ["15", "What is the long run?", "Long enough for firms to enter or exit. Not a fixed number of years."],
+  ["15", "Four barriers this exam cares about.", "A cost advantage rivals cannot copy. Customer lock-in, including a cancellation fee. A network effect. A law that limits licenses."],
+  ["15", "When does a cost advantage fail to protect profit?", "When rivals can copy it or get the same deal. A discount only the big incumbent gets is a real barrier. An advantage available to everyone is not."],
+  ["15", "Explicit cost vs implicit cost.", "Explicit is cash: rent, wages, supplies. Implicit is what the owner gave up: forgone salary plus forgone interest on personal savings."],
+  ["15", "Accounting profit vs economic profit.", "Accounting = revenue − explicit costs. Economic = revenue − explicit − implicit. Accounting profit can be positive while economic profit is negative."],
+  ["15", "Revenue $118,000, explicit $57,000, forgone salary $46,000. Economic profit?", "$15,000. Subtract both the cash costs and the salary."],
+  ["15", "Revenue $74,000, cash costs $44,000, implicit costs $35,000.", "Accounting profit $30,000. Economic profit −$5,000."],
+  ["15", "Price $9, average cost $7, quantity 240. Short-run profit?", "(9 − 7) × 240 = $480."],
+  ["15", "Free entry and exit, long run. Profit and the graph?", "Economic profit goes to zero. The firm's demand curve is tangent to average total cost. Entry follows profit. Exit follows losses."]
+];
+
+const questions = [
+  { ch: "10", q: "A factory's private cost of one more unit is $11. Neighbors suffer $2.50 of extra damage. Marginal social cost is:", choices: ["$8.50", "$11.00", "$13.50", "$2.50"], a: 2, why: "MSC = MPC + MEC. Add the bystander's damage to the private cost." },
+  { ch: "10", q: "Pollution does $30 of marginal damage at the best quantity. The tax is $10 per unit. The market will:", choices: ["Pollute the efficient amount", "Pollute less than the efficient amount", "Still pollute more than the efficient amount", "Turn the activity into a positive externality"], a: 2, why: "The ideal tax equals external damage at the best quantity. A smaller tax leaves too much of the harmful activity." },
+  { ch: "10", q: "A negative externality is drawn correctly when:", choices: ["MSB sits above demand and the market quantity is too small", "MSC sits above supply and the market quantity is too big", "Supply sits above MSC and the market quantity is too small", "Demand sits above MSB and the market quantity is too big"], a: 1, why: "The social-cost curve is the higher one. The unregulated crossing is to the right of the efficient crossing." },
+  { ch: "10", q: "The efficient quantity of a positive externality is where:", choices: ["Demand crosses supply", "MSB crosses supply", "MSC crosses demand to the left of the market", "MR crosses MC"], a: 1, why: "MSB is above private demand. The best point is that higher curve meeting the cost curve, so quantity is larger than the market quantity." },
+  { ch: "10", q: "At a particular quantity, marginal social cost is:", choices: ["The height of the ordinary supply curve", "The height of the MSC curve", "The vertical gap between price and marginal revenue", "Price times quantity"], a: 1, why: "The study guide is explicit: use the MSC curve, not ordinary supply." },
+  { ch: "10", q: "A paid streaming service can block non-payers, and one extra viewer barely changes anyone else's viewing. It is a:", choices: ["Private good", "Common resource", "Club good", "Public good"], a: 2, why: "Excludable and nonrival. A sandwich is private. Open-ocean fish are a common resource. A free broadcast is a public good." },
+  { ch: "10", q: "Someone watches with a password they did not pay for. That is:", choices: ["Collusion", "Free riding", "A compensating differential", "An efficiency wage"], a: 1, why: "They get the benefit without paying. Making access more excludable is one way to reduce it." },
+  { ch: "10", q: "A propane refill is a private good because it is:", choices: ["Nonrival and nonexcludable", "Nonrival and excludable", "Rival and nonexcludable", "Rival and excludable"], a: 3, why: "One refill cannot be used twice, and the seller can refuse to sell it." },
+  { ch: "10", q: "Open-ocean fish that anyone can take are a:", choices: ["Club good", "Public good", "Common resource", "Private good"], a: 2, why: "Rival, because a fish caught is gone, and nonexcludable, because no one can easily keep others off the water." },
+  { ch: "10", q: "A cap-and-trade program cuts the number of permits. Then:", choices: ["Permit prices fall and emissions rise", "Permit prices rise and emissions fall", "Both stay the same", "Permit prices rise and emissions rise"], a: 1, why: "Fewer permits are scarcer, so the price of a permit rises and allowed pollution falls." },
+  { ch: "10", q: "Society should keep expanding an activity while:", choices: ["MPC is above MPB", "MSB is above MSC", "MR is below MC", "Price is above average cost"], a: 1, why: "Rational rule for society: increase while MSB > MSC, and stop where they are equal." },
+  { ch: "12", q: "Same skills. The noisy night job pays more than the quiet day job. The gap is mostly:", choices: ["Discrimination", "A compensating differential", "An efficiency wage", "Human capital"], a: 1, why: "The extra pay offsets the worse conditions. Discrimination requires the job and the relevant worker traits to be the same." },
+  { ch: "12", q: "Job knowledge gained from school or years of practice is:", choices: ["A network effect", "Human capital", "Collusion", "An implicit cost"], a: 1, why: "Human capital is education, training, experience, and skills. It can raise productivity and the wage." },
+  { ch: "12", q: "A firm pays more than workers could earn elsewhere so they stay and work harder. That is:", choices: ["A compensating differential", "An efficiency wage", "Accounting profit", "A price effect"], a: 1, why: "Above-market pay used to raise effort, morale, retention, or productivity. It can raise profit even though the wage bill is higher." },
+  { ch: "12", q: "Which pay most strongly rewards a faster, more accurate worker?", choices: ["A benefit unrelated to effort", "Piece-rate pay", "A fixed salary with no bonus", "Reimbursed parking"], a: 1, why: "Output-based pay creates a stronger incentive than a benefit that does not depend on effort." },
+  { ch: "12", q: "Giving a manager stock in the company is meant to:", choices: ["Create a compensating differential for night work", "Align the manager with the firm's profit", "Shift labor supply left", "Force price equal to marginal cost"], a: 1, why: "The manager gains when the whole firm does better." },
+  { ch: "12", q: "Two people have the same job, hours, education, and experience. One is paid less only because of gender. That is:", choices: ["A compensating differential", "Human capital", "Wage discrimination", "A natural monopoly"], a: 2, why: "Unequal treatment of otherwise comparable workers because of group membership." },
+  { ch: "12", q: "The state drops a license requirement for an occupation. Then:", choices: ["Labor supply shifts left, the wage rises, employment falls", "Labor supply shifts right, the wage falls, employment rises", "Labor demand shifts left and the wage rises", "The wage stays the same because of the price effect"], a: 1, why: "More people can enter. Supply of labor moves right." },
+  { ch: "14", q: "A few major sellers, and each one has to guess how the others will react. That is:", choices: ["Perfect competition", "Monopolistic competition", "An oligopoly", "A common resource"], a: 2, why: "Oligopoly is a small number of interdependent sellers. Many differentiated sellers would be monopolistic competition." },
+  { ch: "14", q: "Many sellers of identical products have:", choices: ["Substantial market power", "Essentially no market power", "A natural monopoly", "Customer lock-in"], a: 1, why: "That is perfect competition. Each seller takes the market price." },
+  { ch: "14", q: "One firm can serve the whole market at a lower average cost than several firms. That is:", choices: ["Perfect competition", "A natural monopoly", "Free riding", "An efficiency wage"], a: 1, why: "Natural monopoly is about cost, not just 'there happens to be one firm.'" },
+  { ch: "14", q: "Total revenue is $120 at 2 units and $150 at 3 units. The third unit's price is $50. Marginal revenue of the third unit is:", choices: ["$50", "$30", "$150", "$17"], a: 1, why: "MR is the change in total revenue: 150 − 120 = 30. The $50 is the price, which is above MR because of the price effect." },
+  { ch: "14", q: "Marginal cost is $30. MR equals $30 at 20 units, and demand says buyers will pay $60 for 20 units. The firm:", choices: ["Produces 20 and charges $30", "Produces 20 and charges $60", "Produces until price is $30 and then charges $60", "Produces less than 20 to raise profit"], a: 1, why: "Quantity from MR = MC. Price from the demand curve at that quantity." },
+  { ch: "14", q: "A firm with market power sets marginal revenue equal to:", choices: ["Output effect plus price effect", "Output effect minus price effect", "Average cost", "Marginal external cost"], a: 1, why: "The extra unit brings in revenue, and cutting the price loses revenue on the units you were already selling." },
+  { ch: "14", q: "Which one is collusion?", choices: ["Rivals agree to limit output so the price rises", "Every firm raises price because steel got more expensive", "A firm prints honest labels", "Demand is tangent to average cost"], a: 0, why: "Collusion is an agreement. A shared cost shock, by itself, is not an agreement." },
+  { ch: "14", q: "Making a product more different from its substitutes generally:", choices: ["Reduces market power", "Increases market power", "Forces price down to marginal cost", "Shifts labor supply right"], a: 1, why: "Differentiation makes the demand curve less flat. Fewer sellers also raise market power." },
+  { ch: "14", q: "On the same demand curve, the competitive quantity compared with the monopoly quantity is:", choices: ["Smaller, because competition stops at MR = MC", "Larger, because competition continues until price equals marginal cost", "The same quantity at a lower price", "Zero, because economic profit is zero"], a: 1, why: "Price stays above marginal cost at the monopoly quantity, so competition produces more." },
+  { ch: "14", q: "A patent:", choices: ["Forces rivals to price at marginal cost", "Can reward invention and still block rivals while it lasts", "Is an example of free riding", "Shifts the MSC curve down"], a: 1, why: "Protection preserves the incentive to invent and also preserves market power during the patent." },
+  { ch: "15", q: "Revenue is $118,000. Explicit costs are $57,000. The owner gave up a $46,000 salary. Economic profit is:", choices: ["$61,000", "$15,000", "$46,000", "$118,000"], a: 1, why: "118,000 − 57,000 − 46,000 = 15,000. The $61,000 figure is accounting profit. It leaves out the salary." },
+  { ch: "15", q: "Forgone salary is $54,000 and the owner could have earned 5% on $80,000 of savings. Implicit cost is:", choices: ["$4,000", "$54,000", "$58,000", "$80,000"], a: 2, why: "54,000 + 0.05 × 80,000 = 58,000. Both pieces are opportunity costs, even though no cash leaves the firm." },
+  { ch: "15", q: "Revenue $74,000, cash costs $44,000, implicit costs $35,000. Accounting profit and economic profit are:", choices: ["$30,000 and −$5,000", "$30,000 and $30,000", "−$5,000 and $30,000", "$39,000 and $74,000"], a: 0, why: "Accounting profit ignores the implicit cost. Economic profit subtracts it, so a profitable-looking firm can have an economic loss." },
+  { ch: "15", q: "Price is $9, average cost is $7, quantity is 240. Short-run profit is:", choices: ["$2", "$16", "$480", "$2,160"], a: 2, why: "(Price − average cost) × quantity = 2 × 240 = 480." },
+  { ch: "15", q: "With free entry and exit, long-run economic profit is:", choices: ["Positive, and demand crosses average cost twice", "Zero, and demand is tangent to average total cost", "Equal to accounting profit", "Equal to the price effect"], a: 1, why: "Entry competes profit away. Exit stops when losses are gone. The demand curve ends up just touching average cost." },
+  { ch: "15", q: "The long run is:", choices: ["Always one year", "Always five years", "However long firms need in order to enter or exit", "The time before marginal revenue equals marginal cost"], a: 2, why: "It is defined by entry and exit, not by a clock." },
+  { ch: "15", q: "A law that caps the number of operating licenses is:", choices: ["A government barrier to entry", "A network effect", "Free riding", "An efficiency wage"], a: 0, why: "The rule, not a cost advantage, is what keeps new firms out." },
+  { ch: "15", q: "A cancellation fee that makes customers stay with the current firm is:", choices: ["A unique cost advantage", "Customer lock-in from a switching cost", "Collusion", "A corrective tax"], a: 1, why: "The customer is tied to the incumbent. Long contracts work the same way." },
+  { ch: "15", q: "A service becomes more valuable to each user as more people join. That is:", choices: ["A price effect", "A network effect", "Statistical discrimination", "Diminishing marginal cost only"], a: 1, why: "The larger user base itself is the advantage, which makes entry harder." },
+  { ch: "15", q: "A cheaper process protects long-run profit when:", choices: ["Every rival can copy it next month", "Rivals cannot readily get the same method", "The firm is earning an accounting loss", "Price equals marginal cost"], a: 1, why: "An advantage available to everyone gets competed away. Exclusive access is what discourages entry." },
+  { ch: "15", q: "Firms are earning positive economic profit and new firms are allowed in. Then:", choices: ["Firms exit and supply shifts left", "Firms enter and the profit gets competed down", "The demand curve becomes tangent immediately, with no entry", "Marginal revenue rises above price"], a: 1, why: "Profit attracts entry. Entry pushes the outcome toward zero economic profit. Losses cause exit." }
+];
+
+const ruleRoot = document.getElementById("rules");
+rules.forEach(([title, body]) => {
+  const el = document.createElement("article");
+  el.className = "rule";
+  el.innerHTML = "<h2></h2><p></p>";
+  el.querySelector("h2").textContent = title;
+  el.querySelector("p").textContent = body;
+  ruleRoot.appendChild(el);
+});
+
+const knownKey = "econ200-exam2-known";
+let known = {};
+try { known = JSON.parse(localStorage.getItem(knownKey) || "{}"); } catch (e) { known = {}; }
+function saveKnown() { localStorage.setItem(knownKey, JSON.stringify(known)); }
+
+let cardFilter = "All";
+let cardIndex = 0;
+let flipped = false;
+const cardPills = document.getElementById("card-pills");
+["All", "10", "12", "14", "15", "Still learning"].forEach((name) => {
+  const b = document.createElement("button");
+  b.type = "button";
+  b.textContent = name === "All" || name === "Still learning" ? name : "Ch " + name;
+  b.dataset.filter = name;
+  if (name === "All") b.className = "on";
+  b.addEventListener("click", () => {
+    cardFilter = name;
+    cardIndex = 0;
+    flipped = false;
+    [...cardPills.children].forEach((k) => k.classList.toggle("on", k.dataset.filter === name));
+    renderCard();
+  });
+  cardPills.appendChild(b);
+});
+
+function deck() {
+  return cards
+    .map((c, i) => ({ ch: c[0], front: c[1], back: c[2], i }))
+    .filter((c) => {
+      if (cardFilter === "All") return true;
+      if (cardFilter === "Still learning") return !known[c.i];
+      return c.ch === cardFilter;
+    });
+}
+
+function renderCard() {
+  const d = deck();
+  const meta = document.getElementById("card-meta");
+  const card = document.getElementById("card");
+  if (!d.length) {
+    meta.textContent = "Nothing in this pile.";
+    document.getElementById("card-tag").textContent = "";
+    document.getElementById("card-front").textContent = "Every card in this pile is marked Got it.";
+    document.getElementById("card-back").textContent = "Switch back to All, or keep going through another chapter.";
+    card.classList.remove("flipped");
+    return;
+  }
+  if (cardIndex >= d.length) cardIndex = 0;
+  if (cardIndex < 0) cardIndex = d.length - 1;
+  const c = d[cardIndex];
+  document.getElementById("card-tag").textContent = "Chapter " + c.ch + (known[c.i] ? " · got it" : "");
+  document.getElementById("card-front").textContent = c.front;
+  document.getElementById("card-back").textContent = c.back;
+  card.classList.toggle("flipped", flipped);
+  const gotCount = cards.filter((_, i) => known[i]).length;
+  meta.textContent = "Card " + (cardIndex + 1) + " of " + d.length + "  ·  " + gotCount + " of " + cards.length + " marked got it";
+}
+
+document.getElementById("card").addEventListener("click", () => {
+  flipped = !flipped;
+  renderCard();
+});
+document.getElementById("prev").addEventListener("click", () => { cardIndex -= 1; flipped = false; renderCard(); });
+document.getElementById("next").addEventListener("click", () => { cardIndex += 1; flipped = false; renderCard(); });
+document.getElementById("again").addEventListener("click", () => {
+  const d = deck();
+  if (!d.length) return;
+  delete known[d[cardIndex].i];
+  saveKnown();
+  cardIndex += 1;
+  flipped = false;
+  renderCard();
+});
+document.getElementById("got").addEventListener("click", () => {
+  const d = deck();
+  if (!d.length) return;
+  known[d[cardIndex].i] = true;
+  saveKnown();
+  flipped = false;
+  if (cardFilter === "Still learning") {
+    const nextDeck = deck();
+    if (cardIndex >= nextDeck.length) cardIndex = 0;
+  } else {
+    cardIndex += 1;
+  }
+  renderCard();
+});
+
+let quizFilter = "All";
+let quizIndex = 0;
+const picks = {};
+const quizPills = document.getElementById("quiz-pills");
+["All", "10", "12", "14", "15"].forEach((name) => {
+  const b = document.createElement("button");
+  b.type = "button";
+  b.textContent = name === "All" ? "All" : "Ch " + name;
+  b.dataset.filter = name;
+  if (name === "All") b.className = "on";
+  b.addEventListener("click", () => {
+    quizFilter = name;
+    quizIndex = 0;
+    [...quizPills.children].forEach((k) => k.classList.toggle("on", k.dataset.filter === name));
+    renderQuiz();
+  });
+  quizPills.appendChild(b);
+});
+
+function qdeck() {
+  return questions.filter((q) => quizFilter === "All" || q.ch === quizFilter);
+}
+
+function renderQuiz() {
+  const d = qdeck();
+  if (quizIndex >= d.length) quizIndex = 0;
+  if (quizIndex < 0) quizIndex = d.length - 1;
+  const q = d[quizIndex];
+  const id = questions.indexOf(q);
+  const picked = picks[id];
+  const box = document.getElementById("qcard");
+  box.innerHTML = "";
+  const h = document.createElement("h2");
+  h.textContent = q.q;
+  box.appendChild(h);
+  q.choices.forEach((choice, i) => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "choice";
+    b.textContent = String.fromCharCode(65 + i) + ".  " + choice;
+    if (picked !== undefined) {
+      if (i === q.a) b.classList.add("right");
+      if (i === picked && i !== q.a) b.classList.add("wrong");
+    }
+    b.addEventListener("click", () => {
+      if (picks[id] !== undefined) return;
+      picks[id] = i;
+      renderQuiz();
+    });
+    box.appendChild(b);
+  });
+  if (picked !== undefined) {
+    const why = document.createElement("p");
+    why.className = "why";
+    why.textContent = (picked === q.a ? "Correct. " : "Not this one. ") + q.why;
+    box.appendChild(why);
+  }
+  const answered = d.filter((item) => picks[questions.indexOf(item)] !== undefined);
+  const correct = answered.filter((item) => picks[questions.indexOf(item)] === item.a).length;
+  document.getElementById("quiz-score").textContent =
+    "Question " + (quizIndex + 1) + " of " + d.length + "  ·  Chapter " + q.ch + "  ·  " + correct + " correct out of " + answered.length + " answered";
+}
+
+document.getElementById("quiz-prev").addEventListener("click", () => { quizIndex -= 1; renderQuiz(); });
+document.getElementById("quiz-next").addEventListener("click", () => { quizIndex += 1; renderQuiz(); });
+
+function show(name) {
+  ["rules", "cards", "quiz"].forEach((id) => {
+    document.getElementById(id).classList.toggle("on", id === name);
+    document.getElementById("tab-" + id).classList.toggle("on", id === name);
+  });
+}
+document.getElementById("tab-rules").addEventListener("click", () => show("rules"));
+document.getElementById("tab-cards").addEventListener("click", () => { show("cards"); renderCard(); });
+document.getElementById("tab-quiz").addEventListener("click", () => { show("quiz"); renderQuiz(); });
+
+document.addEventListener("keydown", (e) => {
+  const cardsOn = document.getElementById("cards").classList.contains("on");
+  const quizOn = document.getElementById("quiz").classList.contains("on");
+  if (e.target && (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA")) return;
+  if (cardsOn) {
+    if (e.code === "Space") { e.preventDefault(); flipped = !flipped; renderCard(); }
+    if (e.key === "ArrowRight") { cardIndex += 1; flipped = false; renderCard(); }
+    if (e.key === "ArrowLeft") { cardIndex -= 1; flipped = false; renderCard(); }
+  }
+  if (quizOn) {
+    if (e.key === "ArrowRight") { quizIndex += 1; renderQuiz(); }
+    if (e.key === "ArrowLeft") { quizIndex -= 1; renderQuiz(); }
+  }
+});
+
+renderCard();
+renderQuiz();
+</script>
+</body>
+</html>
