@@ -82,6 +82,16 @@
   .score { color: var(--muted); }
   svg { max-width: 100%; height: auto; }
   .cap { color: var(--muted); font-size: 14px; }
+  .words {
+    background: #fff6d8;
+    border: 1px solid #e4d7a4;
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin: 0 0 12px;
+    font-size: 15px;
+  }
+  .words strong { display: block; margin-bottom: 4px; }
+  .words p { margin: 0 0 4px; }
 </style>
 </head>
 <body>
@@ -107,7 +117,7 @@
 const questions = [
   {
     n: 1, ch: "10", topic: "Add the bystander",
-    q: "A factory’s own cost of one more unit is $11. Neighbors suffer $2.50 of extra damage from that unit. Marginal social cost is:",
+    q: "A factory’s own cost of one more unit is $11. Neighbors suffer $2.50 of extra damage. Marginal social cost means the cost to everyone, the factory plus the neighbors. That number is:",
     choices: ["$8.50", "$11.00", "$13.50", "$2.50"],
     a: 2,
     ask: "It wants the cost to everyone, not just the factory.",
@@ -122,10 +132,10 @@ const questions = [
     n: 2, ch: "10", topic: "Negative externality",
     q: "A plant dumps smoke on people who do not buy the product. Which description is right?",
     choices: [
-      "The social-benefit line sits above demand, and the market makes too little",
-      "The social-cost line sits above supply, and the market makes too much",
-      "Supply sits above the social-cost line, and the market makes too little",
-      "Demand sits above the social-benefit line, and the market makes too much"
+      "The benefit-to-everyone line is the high one, and the market makes too little",
+      "The cost-to-everyone line is the high one, and the market makes too much",
+      "The factory’s own cost line is the high one, and the market makes too little",
+      "Buyers get an extra benefit, and the market makes too much"
     ],
     a: 1,
     ask: "Someone outside the deal is being hurt. What does the market do?",
@@ -140,10 +150,10 @@ const questions = [
     n: 3, ch: "10", topic: "Positive externality",
     q: "A flu shot protects the person who gets it and also the people around them. The best quantity is where:",
     choices: [
-      "Ordinary demand crosses supply",
-      "The marginal-social-benefit line crosses supply",
-      "The social-cost line crosses demand to the left of the market",
-      "Marginal revenue crosses marginal cost"
+      "Only the person who got the shot counts (ordinary demand crosses supply)",
+      "Everyone who benefits counts (the higher benefit line crosses supply)",
+      "Use the pollution picture: a higher cost line, and too much of the activity",
+      "Use the one-firm rule: extra revenue equals extra cost"
     ],
     a: 1,
     ask: "The shot helps people who never paid for it. Where should we stop?",
@@ -174,10 +184,10 @@ const questions = [
   },
   {
     n: 5, ch: "10", topic: "Which line is social cost",
-    q: "On a graph, at a particular quantity, marginal social cost is:",
+    q: "On a graph, marginal social cost means the cost to everyone, including the neighbor. At a given quantity, that number is:",
     choices: [
-      "The height of the ordinary supply line",
-      "The height of the marginal-social-cost line",
+      "The height of the ordinary supply line, which is only the factory",
+      "The height of the higher line that already includes the neighbor",
       "The gap between price and marginal revenue",
       "Price times quantity"
     ],
@@ -194,10 +204,10 @@ const questions = [
     n: 6, ch: "10", topic: "Private good",
     q: "A propane refill is a private good because it is:",
     choices: [
-      "Nonrival and nonexcludable",
-      "Nonrival and excludable",
-      "Rival and nonexcludable",
-      "Rival and excludable"
+      "Not used up, and you cannot keep people out",
+      "Not used up, but you can keep people out",
+      "Used up, and you cannot keep people out",
+      "Used up, and the seller can say no"
     ],
     a: 3,
     ask: "Two checks: does your use leave less for someone else, and can the seller say no?",
@@ -262,7 +272,7 @@ const questions = [
   },
   {
     n: 11, ch: "10", topic: "Fewer permits",
-    q: "A cap-and-trade program cuts the number of pollution permits. Then:",
+    q: "Cap-and-trade means a limited pile of pollution permits. The program cuts how many permits exist. Then:",
     choices: [
       "Permit prices fall and pollution rises",
       "Permit prices rise and pollution falls",
@@ -456,7 +466,7 @@ const questions = [
   },
   {
     n: 24, ch: "14", topic: "Marginal revenue is not the price",
-    q: "Total revenue is $120 at 2 units and $150 at 3 units. The third unit’s price is $50. Marginal revenue of the third unit is:",
+    q: "Total money collected is $120 at 2 units and $150 at 3 units. The third unit’s price is $50. Marginal revenue means how much total money changed, not the price. That change is:",
     choices: ["$50", "$30", "$150", "$17"],
     a: 1,
     ask: "How much did total money change when the third unit was sold?",
@@ -469,7 +479,7 @@ const questions = [
   },
   {
     n: 25, ch: "14", topic: "Quantity, then price",
-    q: "Marginal cost is $30 for every unit. Marginal revenue is $70, then $50, then $30, then $10. Buyers will pay $50 for 3 units. The firm should:",
+    q: "The cost of one more unit is $30 every time. The extra total money from each next unit is $70, then $50, then $30, then $10. Buyers will pay $50 for 3 units. The firm should:",
     choices: [
       "Make 4 units and charge $30",
       "Make 3 units and charge $50",
@@ -487,10 +497,10 @@ const questions = [
   },
   {
     n: 26, ch: "14", topic: "Output effect minus price effect",
-    q: "For a firm that can set its price, marginal revenue equals:",
+    q: "A firm can set its own price. Marginal revenue means the extra total money from one more sale. It equals:",
     choices: [
-      "The output effect plus the price effect",
-      "The output effect minus the price effect",
+      "Money from the extra unit plus the money lost on earlier units",
+      "Money from the extra unit minus the money lost on earlier units",
       "Average cost",
       "The neighbor’s damage"
     ],
@@ -525,9 +535,9 @@ const questions = [
     n: 28, ch: "14", topic: "Differentiation",
     q: "Making a product more different from its substitutes generally:",
     choices: [
-      "Reduces market power",
-      "Increases market power",
-      "Forces the price down to marginal cost",
+      "Makes it harder for the firm to push the price",
+      "Makes it easier for the firm to push the price",
+      "Forces the price down to the cost of one more unit",
       "Shifts labor supply to the right"
     ],
     a: 1,
@@ -541,11 +551,11 @@ const questions = [
   },
   {
     n: 29, ch: "14", topic: "Competition makes more",
-    q: "On the same demand line and the same costs, the competitive quantity compared with the monopoly quantity is:",
+    q: "Same buyers, same costs. How does the amount made under many competing sellers compare with the amount made by one seller?",
     choices: [
-      "Smaller, because competition stops where marginal revenue equals marginal cost",
-      "Larger, because competition keeps going until price equals marginal cost",
-      "The same quantity, just at a lower price",
+      "Smaller. Competition stops at the one-seller rule, extra revenue equals extra cost",
+      "Larger. Competition keeps going until the price equals the cost of one more unit",
+      "The same amount, just at a lower price",
       "Zero, because economic profit is zero"
     ],
     a: 1,
@@ -559,7 +569,7 @@ const questions = [
   },
   {
     n: 30, ch: "14", topic: "Already at the best quantity",
-    q: "A firm with market power is already producing where marginal revenue equals marginal cost. It produces less. What happens?",
+    q: "A firm that can set its price is already making the amount where extra total money equals the cost of one more unit. It makes less. What happens?",
     choices: [
       "Profit rises, and the price buyers pay falls",
       "Profit falls, and the price buyers pay rises",
@@ -577,7 +587,7 @@ const questions = [
   },
   {
     n: 31, ch: "15", topic: "Do not forget the salary",
-    q: "Revenue is $118,000. Cash costs are $57,000. The owner gave up a $46,000 salary. Economic profit is:",
+    q: "Revenue is $118,000. Cash costs are $57,000. The owner gave up a $46,000 salary. Economic profit means you subtract the cash and the salary given up. It is:",
     choices: ["$61,000", "$15,000", "$46,000", "$118,000"],
     a: 1,
     ask: "Economic profit subtracts the cash costs and the salary the owner walked away from.",
@@ -590,7 +600,7 @@ const questions = [
   },
   {
     n: 32, ch: "15", topic: "Hidden cost",
-    q: "The owner gave up a $54,000 salary and could have earned 5% on $80,000 of savings. Implicit cost is:",
+    q: "The owner gave up a $54,000 salary and could have earned 5% on $80,000 of savings. Implicit cost means that hidden cost, even though no cash left the firm. It is:",
     choices: ["$4,000", "$54,000", "$58,000", "$80,000"],
     a: 2,
     ask: "Add every opportunity the owner gave up. No cash has to leave the firm.",
@@ -603,7 +613,7 @@ const questions = [
   },
   {
     n: 33, ch: "15", topic: "Both profits",
-    q: "Revenue is $74,000. Cash costs are $44,000. Implicit costs are $35,000. Accounting profit and economic profit are:",
+    q: "Revenue is $74,000. Cash costs are $44,000. Hidden costs are $35,000. Accounting profit subtracts only the cash. Economic profit also subtracts the hidden cost. Those two profits are:",
     choices: [
       "$30,000 and −$5,000",
       "$30,000 and $30,000",
@@ -734,6 +744,25 @@ const questions = [
 
 const letters = ["A", "B", "C", "D"];
 
+const words = {
+  "10": "Cost to everyone = the factory’s cost plus the neighbor’s damage. Add. Benefit to everyone = the buyer’s benefit plus the free benefit to other people. Too much means the market dot is too far right. Too little means too far left. A subsidy is the government paying people so more of a good thing happens. Used up means your use leaves less for someone else. Can keep people out means non-payers can be blocked.",
+  "12": "Extra pay for a worse job is a compensating differential. A nicer job can pay less for the same reason. School or years of practice is human capital. Pay above other jobs so people try harder is an efficiency wage. Pay that changes with results is incentive pay. Same job and same skills, paid less only because of gender, is discrimination. Dropping a license lets more workers in, so the wage falls.",
+  "14": "Many identical sellers: nobody sets the price. Many different products: some power to set the price. A few sellers who watch each other: oligopoly. One seller: monopoly. Extra total money from one more sale is not the sticker price. Quantity first, where that extra money equals the cost of one more unit. Then read the price on the demand line. Collusion means they agreed.",
+  "15": "Cash cost is money that leaves. Hidden cost is the salary or interest the owner gave up. Accounting profit subtracts only cash. Economic profit subtracts cash and the hidden cost. Short-run profit is the gap between price and average cost, times quantity. The long run is however long firms need to enter or leave. Free entry drives economic profit to zero."
+};
+
+function wordsBox(ch) {
+  const box = document.createElement("div");
+  box.className = "words";
+  const title = document.createElement("strong");
+  title.textContent = "Words for this part of the test";
+  box.appendChild(title);
+  const p = document.createElement("p");
+  p.textContent = words[ch];
+  box.appendChild(p);
+  return box;
+}
+
 function explanation(q) {
   const box = document.createElement("div");
   const ask = document.createElement("p");
@@ -793,6 +822,7 @@ questions.forEach((q) => {
   k.className = "kicker";
   k.textContent = "Question " + q.n + " · " + q.topic;
   card.appendChild(k);
+  card.appendChild(wordsBox(q.ch));
   const stem = document.createElement("h3");
   stem.textContent = q.q;
   card.appendChild(stem);
@@ -949,6 +979,7 @@ function renderQuiz() {
   k.className = "kicker";
   k.textContent = "Question " + q.n + " of 40 · Chapter " + q.ch + " · " + q.topic;
   card.appendChild(k);
+  card.appendChild(wordsBox(q.ch));
   const h = document.createElement("h3");
   h.textContent = q.q;
   card.appendChild(h);
